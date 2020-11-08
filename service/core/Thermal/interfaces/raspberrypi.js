@@ -25,6 +25,7 @@ RaspberryPiThermalInterface.create = async () => {
       thermalFiles: [new ThermalFile(name, tempInputPath, 85.0)],
     });
   } catch (e) {
+    console.error(e);
     return null;
   }
 };
