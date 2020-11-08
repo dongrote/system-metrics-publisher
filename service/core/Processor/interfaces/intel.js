@@ -17,7 +17,7 @@ const _ = require('lodash'),
   path = require('path'),
   CPUFreqPolicy = require('../CPUFreqPolicy');
 
-const cpufreqDirectory = `/sys/devices/system/cpu/cpufreq/policy0`;
+const cpufreqDirectory = `/sys/devices/system/cpu/cpufreq`;
 
 IntelProcessorInterface.create = async () => {
   try {
