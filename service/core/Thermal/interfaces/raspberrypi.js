@@ -6,8 +6,6 @@ const thermalFilesDirectory = '/sys/devices/virtual/thermal/thermal_zone0/hwmon0
 
 function RaspberryPiThermalInterface (options) {
   ThermalInterface.call(this, options);
-  this.criticalTemperature = _.get(options, 'criticalTemperature', 85.0);
-  this.thermalFiles = _.get(options, 'thermalFiles', []);
 }
 
 exports = module.exports = RaspberryPiThermalInterface;
