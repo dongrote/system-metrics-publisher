@@ -18,7 +18,7 @@ RaspberryPiThermalInterface.create = async () => {
   try {
     const name = await fs.readFile(path.join(thermalFilesDirectory, 'name'));
     const tempInputPath = path.join(thermalFilesDirectory, 'temp1_input');
-    const hasTempFile = await fs.access(tempInputPath);
+    const hasTempFile = await fs.pathExists(tempInputPath);
     if (!hasTempFile) throw new Error('missing temp1_input');
     return new RaspberryPiThermalInterface({
       // 85C per raspberrypi faq (https://www.raspberrypi.org/documentation/faqs)
