@@ -30,7 +30,7 @@ RaspberryPiProcessorInterface.create = async () => {
     const minFrequencyBuffer = await fs.readFile(path.join(cpufreqDirectory, 'cpuinfo_min_freq'));
     const min = Number(minFrequencyBuffer.toString());
     const processors = [];
-    for (const cpuNumber in affectedCpus) {
+    for (const cpuNumber of affectedCpus) {
       processors.push(new CPUFreqPolicy({
         cpuNumber,
         max,
