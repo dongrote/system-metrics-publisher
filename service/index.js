@@ -8,9 +8,8 @@ const os = require('os'),
 const hostname = os.hostname();
 const multicast = dgram.createSocket('udp4');
 
-multicast
-  .addMembership(env.publishAddress())
-  .connect(env.publishPort(), env.publishAddress(), err => {
+multicast.addMembership(env.publishAddress());
+multicast.connect(env.publishPort(), env.publishAddress(), err => {
     if (err) {
       console.error(err);
       process.exit(1);
