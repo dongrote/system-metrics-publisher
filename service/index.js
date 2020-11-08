@@ -8,9 +8,9 @@ const os = require('os'),
 const hostname = os.hostname();
 const multicast = dgram.createSocket('udp4');
 
-multicast.setMulticastInterface(env.multicastInterface());
-
-Promise
+multicast.bind({}, () => {
+  multicast.setMulticastInterface(env.multicastInterface());
+  Promise
   .all([core.Thermal.findInterface(), core.Processor.findInterface()])
   .then(([thermals, processors]) => {
     setInterval(() => {
@@ -27,3 +27,4 @@ Promise
     console.error(err);
     process.exit(1);
   });
+})
