@@ -1,0 +1,24 @@
+{
+  "name": "system-metrics-publisher",
+  "version": "1.0.0",
+  "description": "Periodically publish collected system metrics to a configure multicast address.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dongrote/system-metrics-publisher.git"
+  },
+  "author": "Don Grote <don.grote@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dongrote/system-metrics-publisher/issues"
+  },
+  "homepage": "https://github.com/dongrote/system-metrics-publisher#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "fs-extra": "^9.0.1",
+    "lodash": "^4.17.20"
+  }
+}
