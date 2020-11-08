@@ -1,14 +1,23 @@
 'use strict';
-const _ = require('lodash');
+const _ = require('lodash'),
+  ThermalInterface = require('../ThermalInterface');
 
 const thermalFilesDirectory = '/sys/devices/virtual/thermal/thermal_zone0/hwmon0';
 
 function RaspberryPiThermalInterface (options) {
+  ThermalInterface.call(this, options);
   this.criticalTemperature = _.get(options, 'criticalTemperature', 85.0);
   this.thermalFiles = _.get(options, 'thermalFiles', []);
 }
 
 exports = module.exports = RaspberryPiThermalInterface;
+
+RaspberryPiProcessorInterface.prototype = Object.create(ThermalInterface.prototype);
+Object.defineProperty(RaspberryPiProcessorInterface.prototype, 'constructor', {
+  value: RaspberryPiThermalInterface,
+  enumerable: false,
+  writable: true,
+});
 
 const fs = require('fs-extra'),
   path = require('path'),
@@ -21,28 +30,11 @@ RaspberryPiThermalInterface.create = async () => {
     const hasTempFile = await fs.pathExists(tempInputPath);
     if (!hasTempFile) throw new Error('missing temp1_input');
     return new RaspberryPiThermalInterface({
-      // 85C per raspberrypi faq (https://www.raspberrypi.org/documentation/faqs)
-      thermalFiles: [new ThermalFile(name.toString(), tempInputPath, 85.0)],
+      // critical temperature of 85C per raspberrypi faq (https://www.raspberrypi.org/documentation/faqs)
+      thermalFiles: [new ThermalFile(name.toString().trim(), tempInputPath, 85.0)],
     });
   } catch (e) {
     console.error(e);
     return null;
   }
-};
-
-RaspberryPiThermalInterface.prototype.criticalTemperature = function () {
-  return this.criticalTemperature;
-};
-
-RaspberryPiThermalInterface.prototype.queryThermalZones = async function () {
-  const thermals = [];
-  for (const thermalFile of this.thermalFiles) {
-    thermals.push({
-      name: thermalFile.name(),
-      source: thermalFile.path(),
-      celsius: await thermalFile.readCelsius(),
-      critical: thermalFile.criticalTemperatureCelsius(),
-    });
-  }
-  return thermals;
 };
