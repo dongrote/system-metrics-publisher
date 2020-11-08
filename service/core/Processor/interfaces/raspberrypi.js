@@ -4,13 +4,14 @@ function RaspberryPiProcessorInterface (processors) {
   ProcessorInterface.call(this, processors);
 }
 
-exports = module.exports = RaspberryPiProcessorInterface;
 RaspberryPiProcessorInterface.prototype = Object.create(ProcessorInterface.prototype);
 Object.defineProperty(RaspberryPiProcessorInterface.prototype, 'constructor', {
   value: RaspberryPiProcessorInterface,
   enumerable: false,
   writable: true,
 });
+
+exports = module.exports = RaspberryPiProcessorInterface;
 
 const _ = require('lodash'),
   fs = require('fs-extra'),
