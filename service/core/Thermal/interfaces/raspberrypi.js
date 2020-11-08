@@ -36,7 +36,7 @@ RaspberryPiThermalInterface.prototype.criticalTemperature = function () {
 
 RaspberryPiThermalInterface.prototype.queryThermalZones = async function () {
   const thermals = [];
-  for (thermalFile in this.thermalFiles) {
+  for (const thermalFile of this.thermalFiles) {
     thermals.push({
       name: thermalFile.name(),
       source: thermalFile.path(),
