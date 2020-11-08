@@ -12,7 +12,7 @@ Promise
           console.log(`temps: ${JSON.stringify(temps)}`);
           console.log(`procs: ${JSON.stringify(procs)}`);
         });
-    }, 1000);
+    }, 10000);
   })
   .catch(err => {
     console.error(err);
