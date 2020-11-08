@@ -22,7 +22,7 @@ RaspberryPiThermalInterface.create = async () => {
     if (!hasTempFile) throw new Error('missing temp1_input');
     return new RaspberryPiThermalInterface({
       // 85C per raspberrypi faq (https://www.raspberrypi.org/documentation/faqs)
-      thermalFiles: [new ThermalFile(name, tempInputPath, 85.0)],
+      thermalFiles: [new ThermalFile(name.toString(), tempInputPath, 85.0)],
     });
   } catch (e) {
     console.error(e);
