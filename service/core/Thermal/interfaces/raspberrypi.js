@@ -23,6 +23,8 @@ const fs = require('fs-extra'),
 
 RaspberryPiThermalInterface.create = async () => {
   try {
+    const cpuinfo = await fs.readFile('/proc/cpuinfo');
+    if (!_.includes(cpuinfo.toString(), 'Raspberry Pi')) throw new Error('not raspberry pi');
     const name = await fs.readFile(path.join(thermalFilesDirectory, 'name'));
     const tempInputPath = path.join(thermalFilesDirectory, 'temp1_input');
     const hasTempFile = await fs.pathExists(tempInputPath);
