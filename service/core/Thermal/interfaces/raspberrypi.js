@@ -12,8 +12,8 @@ function RaspberryPiThermalInterface (options) {
 
 exports = module.exports = RaspberryPiThermalInterface;
 
-RaspberryPiProcessorInterface.prototype = Object.create(ThermalInterface.prototype);
-Object.defineProperty(RaspberryPiProcessorInterface.prototype, 'constructor', {
+RaspberryPiThermalInterface.prototype = Object.create(ThermalInterface.prototype);
+Object.defineProperty(RaspberryPiThermalInterface.prototype, 'constructor', {
   value: RaspberryPiThermalInterface,
   enumerable: false,
   writable: true,
