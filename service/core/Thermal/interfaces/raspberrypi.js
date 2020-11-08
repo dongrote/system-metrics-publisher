@@ -16,7 +16,7 @@ const fs = require('fs-extra'),
 
 RaspberryPiThermalInterface.create = async () => {
   try {
-    const name = await fs.read(path.join(thermalFilesDirectory, 'name'));
+    const name = await fs.readFile(path.join(thermalFilesDirectory, 'name'));
     const tempInputPath = path.join(thermalFilesDirectory, 'temp1_input');
     const hasTempFile = await fs.access(tempInputPath);
     if (!hasTempFile) throw new Error('missing temp1_input');
