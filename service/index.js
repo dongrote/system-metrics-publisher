@@ -1,16 +1,25 @@
 'use strict';
 require('dotenv').config();
-const core = require('./core');
+const os = require('os'),
+  env = require('./env'),
+  dgram = require('dgram'),
+  core = require('./core');
 
-Promise
+const hostname = os.hostname();
+const multicast = dgram.createSocket('udp4');
+
+multicast.bind({}, () => {
+  multicast.setMulticastInterface(env.multicastInterface());
+  Promise
   .all([core.Thermal.findInterface(), core.Processor.findInterface()])
   .then(([thermals, processors]) => {
     setInterval(() => {
       Promise
         .all([thermals.queryThermalZones(), processors.queryFrequencies()])
         .then(([temps, procs]) => {
-          console.log(`temps: ${JSON.stringify(temps)}`);
-          console.log(`procs: ${JSON.stringify(procs)}`);
+          const packetData = {hostname, temps,procs};
+          console.log(JSON.stringify(packetData));
+          multicast.send(Buffer.from(JSON.stringify(packetData)), env.publishPort(), env.publishAddress());
         });
     }, 10000);
   })
@@ -18,3 +27,4 @@ Promise
     console.error(err);
     process.exit(1);
   });
+})
