@@ -12,4 +12,7 @@ multicast
   })
   .on('message', msg => {
     console.log('rx msg');
+    const s = msg.toString();
+    console.log(s);
+    console.dir(JSON.parse(s));
   });

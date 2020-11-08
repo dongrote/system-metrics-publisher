@@ -8,20 +8,28 @@ const os = require('os'),
 const hostname = os.hostname();
 const multicast = dgram.createSocket('udp4');
 
-Promise
-  .all([core.Thermal.findInterface(), core.Processor.findInterface()])
-  .then(([thermals, processors]) => {
-    setInterval(() => {
-      Promise
-        .all([thermals.queryThermalZones(), processors.queryFrequencies()])
-        .then(([temps, procs]) => {
-          const packetData = {hostname, temps,procs};
-          console.log(JSON.stringify(packetData));
-          multicast.send(Buffer.from(JSON.stringify(packetData)), env.publishPort(), env.publishAddress());
-        });
-    }, 10000);
-  })
-  .catch(err => {
-    console.error(err);
-    process.exit(1);
+multicast
+  .addMembership(env.publishAddress())
+  .connect(env.publishPort(), env.publishAddress(), err => {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    Promise
+      .all([core.Thermal.findInterface(), core.Processor.findInterface()])
+      .then(([thermals, processors]) => {
+        setInterval(() => {
+          Promise
+            .all([thermals.queryThermalZones(), processors.queryFrequencies()])
+            .then(([temps, procs]) => {
+              const packetData = {hostname, temps,procs};
+              console.log(JSON.stringify(packetData));
+              multicast.send(Buffer.from(JSON.stringify(packetData)), env.publishPort(), env.publishAddress());
+            });
+        }, 10000);
+      })
+      .catch(err => {
+        console.error(err);
+        process.exit(1);
+      });
   });
