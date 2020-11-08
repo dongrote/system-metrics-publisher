@@ -1,7 +1,8 @@
 'use strict';
-exports = module.exports = async interfaces => {
-  for (const iface of interfaces) {
-    const i = await iface.create();
+const interfaces = require('./interfaces');
+exports = module.exports = async () => {
+  for (const name in interfaces) {
+    const i = await interfaces[name].create();
     if (i) {
       return i;
     };
